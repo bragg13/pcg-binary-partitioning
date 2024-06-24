@@ -16,7 +16,7 @@ class Node {
     this.right = null;
     this.parent = parent;
     this.depth = parent != null ? parent.depth + 1 : 0;
-    const colorOffset = int((250 / 6) * (this.depth + 1));
+    const colorOffset = int((250 / MAX_DEPTH) * (this.depth + 1));
     this.color = `rgb(${colorOffset}, ${colorOffset}, ${colorOffset})`;
 
     this.position = position;
@@ -42,12 +42,17 @@ class Node {
     if (!this.leaf) {
       this.left.draw();
       this.right.draw();
+    } else {
+      fill(this.depth > 2 ? "black" : "white");
+      const centerX = this.position.x + this.size.width / 2;
+      const centerY = this.position.y + this.size.height / 2;
+      text(this.depth, centerX, centerY);
     }
     // this.room.draw();
   }
 
   getLeaves() {
-    if (this.leaf) {
+    if (this.leaf && this.depth < MAX_DEPTH) {
       return [this];
     }
 

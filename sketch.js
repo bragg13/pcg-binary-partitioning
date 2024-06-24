@@ -1,6 +1,7 @@
 // constants
 const MAX_W = 800;
 const MAX_H = 800;
+const MAX_DEPTH = 5;
 
 let roomDim = {
   height: 100,
@@ -35,6 +36,9 @@ function draw() {
 function createDungeon() {
   const leaves = tree.getLeaves();
   console.log(leaves);
+}
+function mouseClicked() {
+  console.log(mouseX, mouseY);
 }
 
 function splitTree() {
