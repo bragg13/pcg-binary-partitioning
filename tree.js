@@ -1,7 +1,8 @@
 class Room {
-  constructor(name, pos, size) {
+  constructor(name, pos, size, parentSize) {
     this.name = name;
     this.size = size;
+    this.parentSize = parentSize;
     this.position = pos;
   }
 
@@ -10,9 +11,12 @@ class Room {
     let offX = 5;
     let offY = 5;
 
+    let freeSpaceW = this.parentSize.width - this.size.width;
+    let freeSpaceH = this.parentSize.height - this.size.height;
+
     rect(
-      this.position.x + offX,
-      this.position.y + offY,
+      this.position.x + freeSpaceW / 2 + offX,
+      this.position.y + freeSpaceH / 2 + offY,
       this.size.width - 2 * offX,
       this.size.height - 2 * offY,
     );
@@ -37,7 +41,12 @@ class Node {
   }
 
   createRoom(size) {
-    this.room = new Room(this.createRandomString(4), this.position, size);
+    this.room = new Room(
+      this.createRandomString(4),
+      this.position,
+      size,
+      this.size,
+    );
   }
 
   createRooms() {
@@ -46,7 +55,6 @@ class Node {
         width: random(MIN_ROOM_W, this.size.width),
         height: random(MIN_ROOM_H, this.size.height),
       };
-      console.log("creating room");
       this.createRoom(size);
     } else {
       this.left.createRooms();
