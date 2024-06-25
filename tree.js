@@ -27,6 +27,10 @@ class Node {
     this.room = null;
   }
 
+  createRoom(size) {
+    this.room = new Room(this.createRandomString(4), size.width, size.height);
+  }
+
   draw() {
     fill(this.color);
     let offX = 5;
@@ -46,16 +50,38 @@ class Node {
       fill(this.depth > 2 ? "black" : "white");
       const centerX = this.position.x + this.size.width / 2;
       const centerY = this.position.y + this.size.height / 2;
-      text(this.depth, centerX, centerY);
+      // text(
+      //   `${this.depth} (${this.size.width},${this.size.height})`,
+      //   centerX,
+      //   centerY,
+      // );
     }
+
     // this.room.draw();
   }
 
+  canBeSplit() {
+    // and if the smallest potential spit (30%) would still be larger than the minimum room size
+    return (
+      this.size.width * 0.3 > MIN_ROOM_W && this.size.height * 0.3 > MIN_ROOM_H
+    );
+  }
+
   getLeaves() {
-    if (this.leaf && this.depth < MAX_DEPTH) {
-      return [this];
+    if (this.leaf) {
+      if (this.depth < MAX_DEPTH) {
+        if (this.canBeSplit()) {
+          return [this];
+        }
+      }
+      return [];
     }
 
+    console.log(`I am `);
+    console.log(this);
+    console.log(`gonna call getLeaves on `);
+    console.log(this.left);
+    console.log(this.right);
     let left = this.left.getLeaves();
     let right = this.right.getLeaves();
 
@@ -66,7 +92,6 @@ class Node {
 
     if (mode == "h") {
       // HORIZONTAL SPLIT
-      // let half = this.size.height / 2;
       let leftDim = this.size.height / (100 / perc);
       let rightDim = this.size.height - leftDim;
 
@@ -82,7 +107,6 @@ class Node {
       );
     } else {
       // VERTICAL SPLIT
-      // let half = this.size.width / 2;
       let leftDim = this.size.width / (100 / perc);
       let rightDim = this.size.width - leftDim;
 
@@ -99,10 +123,13 @@ class Node {
     }
   }
 
-  // toString() {
-  //   return `depth: ${this.depth}, pos: ${this.position}, size: ${this.size}
-  //   - ${this.left}
-  //   - ${this.right}
-  //   `;
-  // }
+  createRandomString(length) {
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  }
 }

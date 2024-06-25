@@ -1,12 +1,9 @@
 // constants
 const MAX_W = 800;
 const MAX_H = 800;
-const MAX_DEPTH = 5;
-
-let roomDim = {
-  height: 100,
-  width: 100,
-};
+const MAX_DEPTH = 4;
+const MIN_ROOM_H = 50;
+const MIN_ROOM_W = 50;
 
 let tree;
 
@@ -38,7 +35,7 @@ function createDungeon() {
   console.log(leaves);
 }
 function mouseClicked() {
-  console.log(mouseX, mouseY);
+  // console.log(mouseX, mouseY);
 }
 
 function splitTree() {
@@ -48,12 +45,13 @@ function splitTree() {
   // select a random leaf node to split
   const leaves = tree.getLeaves();
 
-  let node = random(leaves);
-  node.splitTree(direction, splitSize);
-  console.log(tree);
+  if (leaves) {
+    let node = random(leaves);
+    node.splitTree(direction, splitSize);
+  }
 }
 
 function resetMinRoomDim() {
-  roomDim["height"] = minRoomH.value();
-  roomDim["width"] = minRoomW.value();
+  MIN_ROOM_H = minRoomH.value();
+  MIN_ROOM_W = minRoomW.value();
 }
