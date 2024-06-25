@@ -1,13 +1,22 @@
 class Room {
-  constructor(name, w, h) {
+  constructor(name, pos, size) {
     this.name = name;
-    this.width = w;
-    this.height = h;
-
-    this.position = { ...position };
+    this.size = size;
+    this.position = pos;
   }
 
-  draw() {}
+  draw() {
+    fill("#7a6323");
+    let offX = 5;
+    let offY = 5;
+
+    rect(
+      this.position.x + offX,
+      this.position.y + offY,
+      this.size.width - 2 * offX,
+      this.size.height - 2 * offY,
+    );
+  }
 }
 
 class Node {
@@ -28,7 +37,21 @@ class Node {
   }
 
   createRoom(size) {
-    this.room = new Room(this.createRandomString(4), size.width, size.height);
+    this.room = new Room(this.createRandomString(4), this.position, size);
+  }
+
+  createRooms() {
+    if (this.leaf) {
+      let size = {
+        width: random(MIN_ROOM_W, this.size.width),
+        height: random(MIN_ROOM_H, this.size.height),
+      };
+      console.log("creating room");
+      this.createRoom(size);
+    } else {
+      this.left.createRooms();
+      this.right.createRooms();
+    }
   }
 
   draw() {
@@ -57,7 +80,7 @@ class Node {
       // );
     }
 
-    // this.room.draw();
+    if (this.room) this.room.draw();
   }
 
   canBeSplit() {
@@ -77,11 +100,6 @@ class Node {
       return [];
     }
 
-    console.log(`I am `);
-    console.log(this);
-    console.log(`gonna call getLeaves on `);
-    console.log(this.left);
-    console.log(this.right);
     let left = this.left.getLeaves();
     let right = this.right.getLeaves();
 

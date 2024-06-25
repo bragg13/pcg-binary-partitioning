@@ -31,9 +31,9 @@ function draw() {
 }
 
 function createDungeon() {
-  const leaves = tree.getLeaves();
-  console.log(leaves);
+  tree.createRooms();
 }
+
 function mouseClicked() {
   // console.log(mouseX, mouseY);
 }
