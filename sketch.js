@@ -43,15 +43,13 @@ function mouseClicked() {
 
 function splitTree() {
   let direction = random(["h", "v"]);
-  console.log(`Splitting on ${direction}`);
+  let splitSize = random([30, 40, 50]);
 
   // select a random leaf node to split
   const leaves = tree.getLeaves();
-  console.log("leaves");
-  console.log(leaves);
 
   let node = random(leaves);
-  node.splitTree(direction);
+  node.splitTree(direction, splitSize);
   console.log(tree);
 }
 

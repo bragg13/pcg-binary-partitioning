@@ -61,37 +61,40 @@ class Node {
 
     return [...left, ...right];
   }
-  splitTree(mode) {
-    console.log(`splitting`);
+  splitTree(mode, perc) {
     this.leaf = false;
 
     if (mode == "h") {
       // HORIZONTAL SPLIT
-      let half = this.size.height / 2;
+      // let half = this.size.height / 2;
+      let leftDim = this.size.height / (100 / perc);
+      let rightDim = this.size.height - leftDim;
 
       this.left = new Node(this, this.position, {
         width: this.size.width,
-        height: half,
+        height: leftDim,
       });
 
       this.right = new Node(
         this,
-        { x: this.position.x, y: this.position.y + half },
-        { width: this.size.width, height: half },
+        { x: this.position.x, y: this.position.y + leftDim },
+        { width: this.size.width, height: rightDim },
       );
     } else {
       // VERTICAL SPLIT
-      let half = this.size.width / 2;
+      // let half = this.size.width / 2;
+      let leftDim = this.size.width / (100 / perc);
+      let rightDim = this.size.width - leftDim;
 
       this.left = new Node(this, this.position, {
-        width: half,
+        width: leftDim,
         height: this.size.height,
       });
 
       this.right = new Node(
         this,
-        { x: this.position.x + half, y: this.position.y },
-        { width: half, height: this.size.height },
+        { x: this.position.x + leftDim, y: this.position.y },
+        { width: rightDim, height: this.size.height },
       );
     }
   }
