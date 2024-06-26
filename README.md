@@ -8,10 +8,11 @@ Basic implementation of Binary Partitioning algorithm to generate dungeons.
 
 - [x] Tree representation of the dungeon
 - [x] Splitting recursively each node into two nodes
-- [ ] Different split size (random)
+- [x] Different split size (random)
+- [x] Evenly split nodes
 - [ ] Room definition + random size but minimum predefined
 - [ ] Some decent coloring
-- [ ] Some more decent UI to interact with parameters
-- [ ] Click on space to split there
+- [x] Some more decent UI to interact with parameters
+- [x] Click on space to split there
 - [ ] Connect rooms with corridors
 - [ ] Define themes using the tree structure
