@@ -12,14 +12,16 @@ class Room {
     this.freeSpaceW = this.parentSize.width - this.size.width;
     this.freeSpaceH = this.parentSize.height - this.size.height;
 
-    this.offsetX =
-      offX + allowRandomRoomOffsetInput.checked()
-        ? random(0, this.freeSpaceW)
-        : this.freeSpaceW / 2;
-    this.offsetY =
-      offY + allowRandomRoomOffsetInput.checked()
-        ? random(0, this.freeSpaceH)
-        : this.freeSpaceH / 2;
+    console.log(allowRandomRoomOffsetInput.checked());
+    this.offsetX = offX;
+    this.offsetY = offY;
+
+    this.offsetX += allowRandomRoomOffsetInput.checked()
+      ? random(0, this.freeSpaceW)
+      : this.freeSpaceW / 2;
+    this.offsetY += allowRandomRoomOffsetInput.checked()
+      ? random(0, this.freeSpaceH)
+      : this.freeSpaceH / 2;
   }
 
   draw() {
@@ -39,7 +41,7 @@ class Room {
 
     fill("white");
 
-    text(this.name, centerX, centerY);
+    // text(this.name, centerX, centerY);
   }
 }
 
@@ -81,6 +83,9 @@ class Node {
       this.right.createRooms();
     }
   }
+
+  // connectRooms() {
+  // }
 
   draw() {
     fill(this.color);
@@ -130,6 +135,23 @@ class Node {
 
     let left = this.left.getLeaves();
     let right = this.right.getLeaves();
+
+    return [...left, ...right];
+  }
+
+  getLeavesBalanced() {
+    console.log(this.left);
+    if (this.left.leaf) {
+      if (this.depth < MAX_DEPTH) {
+        if (this.left.canBeSplit()) {
+          return [this];
+        }
+      }
+      return [];
+    }
+
+    let left = this.left.getLeavesBalanced();
+    let right = this.right.getLeavesBalanced();
 
     return [...left, ...right];
   }
