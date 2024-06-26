@@ -1,25 +1,45 @@
+const offX = 5;
+const offY = 5;
+
 class Room {
   constructor(name, pos, size, parentSize) {
     this.name = name;
     this.size = size;
     this.parentSize = parentSize;
     this.position = pos;
+
+    // displace inside of the space by some value
+    this.freeSpaceW = this.parentSize.width - this.size.width;
+    this.freeSpaceH = this.parentSize.height - this.size.height;
+
+    this.offsetX =
+      offX + allowRandomRoomOffsetInput.checked()
+        ? random(0, this.freeSpaceW)
+        : this.freeSpaceW / 2;
+    this.offsetY =
+      offY + allowRandomRoomOffsetInput.checked()
+        ? random(0, this.freeSpaceH)
+        : this.freeSpaceH / 2;
   }
 
   draw() {
     fill("#7a6323");
-    let offX = 5;
-    let offY = 5;
-
-    let freeSpaceW = this.parentSize.width - this.size.width;
-    let freeSpaceH = this.parentSize.height - this.size.height;
 
     rect(
-      this.position.x + freeSpaceW / 2 + offX,
-      this.position.y + freeSpaceH / 2 + offY,
+      this.position.x + this.offsetX,
+      this.position.y + this.offsetY,
       this.size.width - 2 * offX,
       this.size.height - 2 * offY,
     );
+
+    const centerX =
+      this.position.x + this.freeSpaceW / 2 + offX + this.size.width / 2;
+    const centerY =
+      this.position.y + this.freeSpaceH / 2 + offY + this.size.height / 2;
+
+    fill("white");
+
+    text(this.name, centerX, centerY);
   }
 }
 
@@ -42,7 +62,7 @@ class Node {
 
   createRoom(size) {
     this.room = new Room(
-      this.createRandomString(4),
+      this.createRandomString(3),
       this.position,
       size,
       this.size,
@@ -113,6 +133,7 @@ class Node {
 
     return [...left, ...right];
   }
+
   splitTree(mode, perc) {
     this.leaf = false;
 

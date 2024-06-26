@@ -6,6 +6,7 @@ const MIN_ROOM_H = 50;
 const MIN_ROOM_W = 50;
 
 let tree;
+let allowUnevenSplitsInput, allowRandomRoomOffsetInput;
 
 function setup() {
   createCanvas(MAX_W, MAX_H);
@@ -15,6 +16,9 @@ function setup() {
   let createDungeonBtn = createButton("next generation");
   let minRoomW = createInput("");
   let minRoomH = createInput("");
+
+  allowUnevenSplitsInput = createCheckbox("Allow uneven splits");
+  allowRandomRoomOffsetInput = createCheckbox("Allow random room offset");
 
   splitBtn.mousePressed(splitTree);
   createDungeonBtn.mousePressed(createDungeon);
@@ -34,13 +38,19 @@ function createDungeon() {
   tree.createRooms();
 }
 
+function keyPressed() {
+  if (keyCode === 32) {
+    this.splitTree();
+  }
+  return false;
+}
 function mouseClicked() {
   // console.log(mouseX, mouseY);
 }
 
 function splitTree() {
   let direction = random(["h", "v"]);
-  let splitSize = random([30, 40, 50]);
+  let splitSize = allowUnevenSplitsInput.checked() ? random([30, 40, 50]) : 50;
 
   // select a random leaf node to split
   const leaves = tree.getLeaves();
